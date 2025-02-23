@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansökan för Fiesta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            width: 90%;
+            max-width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 3px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <form id="fiestaForm">
+        <h2>Ansökan för Fiesta</h2>
+        <label for="namn">Namn:</label>
+        <input type="text" id="namn" name="namn" required>
+        
+        <label for="alder">Ålder:</label>
+        <input type="number" id="alder" name="alder" min="0" required>
+        
+        <label for="harfarg">Hårfärg:</label>
+        <input type="text" id="harfarg" name="harfarg" required>
+        
+        <label for="langd">Längd (cm):</label>
+        <input type="number" id="langd" name="langd" min="0" required>
+        
+        <label for="bredd">Bredd (cm):</label>
+        <input type="number" id="bredd" name="bredd" min="0" required>
+        
+        <label for="bodycount">Bodycount:</label>
+        <input type="number" id="bodycount" name="bodycount" min="0" required>
+        
+        <label for="kuklangd">Kuklängd (cm):</label>
+        <input type="number" id="kuklangd" name="kuklangd" min="0" required>
+        
+        <label for="stad">Stad:</label>
+        <input type="text" id="stad" name="stad" required>
+        
+        <label for="hobbies">Hobbies:</label>
+        <input type="text" id="hobbies" name="hobbies" required>
+        
+        <label for="tid_uppmaerksamhet">Är du villig att ge all din tid och uppmärksamhet till Fiesta?</label>
+        <select id="tid_uppmaerksamhet" name="tid_uppmaerksamhet" required>
+            <option value="ja">Ja</option>
+            <option value="nej">Nej</option>
+        </select>
+        
+        <label for="varfor">Varför förtjänar du Fiesta?</label>
+        <textarea id="varfor" name="varfor" rows="3" required></textarea>
+        
+        <button type="submit">Skicka in</button>
+    </form>
+    
+    <script>
+        document.getElementById('fiestaForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const webhookURL = 'https://discord.com/api/webhooks/1343343122989449246/4LoiTAps49I3SKGXNu1XJlbyYdyLqgJxZVPr4w8p1rVCR-udNMzx3WiLiXKKFLuW_ibK'; // Lägg din Discord-webhook här!
+            
+            const data = {
+                username: 'Fiesta Ansökan',
+                embeds: [{
+                    title: 'Ny ansökan',
+                    fields: [
+                        { name: 'Namn', value: document.getElementById('namn').value },
+                        { name: 'Ålder', value: document.getElementById('alder').value },
+                        { name: 'Hårfärg', value: document.getElementById('harfarg').value },
+                        { name: 'Längd', value: document.getElementById('langd').value + ' cm' },
+                        { name: 'Bredd', value: document.getElementById('bredd').value + ' cm' },
+                        { name: 'Bodycount', value: document.getElementById('bodycount').value },
+                        { name: 'Kuklängd', value: document.getElementById('kuklangd').value + ' cm' },
+                        { name: 'Stad', value: document.getElementById('stad').value },
+                        { name: 'Hobbies', value: document.getElementById('hobbies').value },
+                        { name: 'Villig att ge tid', value: document.getElementById('tid_uppmaerksamhet').value },
+                        { name: 'Varför', value: document.getElementById('varfor').value }
+                    ],
+                    color: 3447003
+                }]
+            };
+
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Ansökan skickad!');
+                    document.getElementById('fiestaForm').reset();
+                } else {
+                    alert('Ett fel inträffade. Försök igen.');
+                }
+            }).catch(error => {
+                console.error('Fel:', error);
+                alert('Ett fel inträffade. Försök igen.');
+            });
+        });
+    </script>
+</body>
+</html>
